@@ -1,0 +1,37 @@
+# Laravel
+/wms-api/vendor
+/wms-api/node_modules
+/wms-api/.env
+/wms-api/public/hot
+/wms-api/public/storage
+/wms-api/storage/*.key
+/wms-api/.env.backup
+/wms-api/.phpunit.result.cache
+/wms-api/docker-compose.override.yml
+/wms-api/Homestead.json
+/wms-api/Homestead.yaml
+/wms-api/npm-debug.log
+/wms-api/yarn-error.log
+
+# React
+/wms-frontend-react/node_modules
+/wms-frontend-react/.env
+/wms-frontend-react/.env.local
+/wms-frontend-react/.env.development.local
+/wms-frontend-react/.env.test.local
+/wms-frontend-react/.env.production.local
+/wms-frontend-react/build
+/wms-frontend-react/dist
+/wms-frontend-react/coverage
+/wms-frontend-react/npm-debug.log*
+/wms-frontend-react/yarn-debug.log*
+/wms-frontend-react/yarn-error.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db 
