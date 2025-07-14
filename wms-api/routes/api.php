@@ -31,6 +31,9 @@ require __DIR__ . '/api_phase2.php';
 require __DIR__ . '/api_phase3.php';
 require __DIR__ . '/api_phase4.php';
 
+// Include Phase 6 and 7 routes (Returns, Labor, Equipment)
+require __DIR__ . '/api_phase6_phase7.php';
+
 // Warehouse Optimization Routes
 Route::group(['prefix' => 'warehouse-optimization', 'namespace' => 'App\Http\Controllers\Optimization'], function () {
     // Optimization Metrics

@@ -260,8 +260,353 @@ export const qualityControlService = {
   },
 };
 
+// Enhanced Outbound Service with new controllers integration
+export const enhancedOutboundService = {
+  // Order Priority Management
+  orderPriorities: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/order-priorities', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/order-priorities', data);
+      return response.data;
+    },
+
+    update: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.put(`/outbound/order-priorities/${id}`, data);
+      return response.data;
+    },
+
+    bulkUpdate: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/order-priorities/bulk-update', data);
+      return response.data;
+    },
+
+    getAnalytics: async (params?: any): Promise<ApiResponse<any>> => {
+      const response = await api.get('/outbound/order-priorities/analytics', { params });
+      return response.data;
+    }
+  },
+
+  // Back Order Management
+  backOrders: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/backorders', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/backorders', data);
+      return response.data;
+    },
+
+    fulfill: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/backorders/${id}/fulfill`, data);
+      return response.data;
+    },
+
+    getAnalytics: async (params?: any): Promise<ApiResponse<any>> => {
+      const response = await api.get('/outbound/backorders/analytics', { params });
+      return response.data;
+    }
+  },
+
+  // Order Consolidation
+  orderConsolidations: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/order-consolidations', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/order-consolidations', data);
+      return response.data;
+    },
+
+    getOpportunities: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/order-consolidations/opportunities', { params });
+      return response.data;
+    },
+
+    execute: async (id: number): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/order-consolidations/${id}/execute`);
+      return response.data;
+    }
+  },
+
+  // Batch Pick Management
+  batchPicks: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/batch-picks', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/batch-picks', data);
+      return response.data;
+    },
+
+    start: async (id: number): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/batch-picks/${id}/start`);
+      return response.data;
+    },
+
+    complete: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/batch-picks/${id}/complete`, data);
+      return response.data;
+    },
+
+    getAnalytics: async (params?: any): Promise<ApiResponse<any>> => {
+      const response = await api.get('/outbound/batch-picks/analytics', { params });
+      return response.data;
+    }
+  },
+
+  // Zone Pick Management
+  zonePicks: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/zone-picks', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/zone-picks', data);
+      return response.data;
+    },
+
+    assignPickers: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/zone-picks/${id}/assign-pickers`, data);
+      return response.data;
+    },
+
+    start: async (id: number): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/zone-picks/${id}/start`);
+      return response.data;
+    },
+
+    complete: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/zone-picks/${id}/complete`, data);
+      return response.data;
+    }
+  },
+
+  // Cluster Pick Management
+  clusterPicks: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/cluster-picks', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/cluster-picks', data);
+      return response.data;
+    },
+
+    optimize: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/cluster-picks/${id}/optimize`, data);
+      return response.data;
+    },
+
+    start: async (id: number): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/cluster-picks/${id}/start`);
+      return response.data;
+    },
+
+    complete: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/cluster-picks/${id}/complete`, data);
+      return response.data;
+    }
+  },
+
+  // Enhanced Packing Stations
+  packingStations: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/packing-stations', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/packing-stations', data);
+      return response.data;
+    },
+
+    update: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.put(`/outbound/packing-stations/${id}`, data);
+      return response.data;
+    },
+
+    getAnalytics: async (params?: any): Promise<ApiResponse<any>> => {
+      const response = await api.get('/outbound/packing-stations/analytics', { params });
+      return response.data;
+    }
+  },
+
+  // Enhanced Pack Orders
+  packOrders: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/pack-orders', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/pack-orders', data);
+      return response.data;
+    },
+
+    startPacking: async (id: number): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/pack-orders/${id}/start-packing`);
+      return response.data;
+    },
+
+    completePacking: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/pack-orders/${id}/complete-packing`, data);
+      return response.data;
+    },
+
+    getAnalytics: async (params?: any): Promise<ApiResponse<any>> => {
+      const response = await api.get('/outbound/pack-orders/analytics', { params });
+      return response.data;
+    }
+  },
+
+  // Enhanced Shipments
+  shipments: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/shipments', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/shipments', data);
+      return response.data;
+    },
+
+    update: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.put(`/outbound/shipments/${id}`, data);
+      return response.data;
+    },
+
+    ship: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/shipments/${id}/ship`, data);
+      return response.data;
+    },
+
+    track: async (trackingNumber: string): Promise<ApiResponse<any>> => {
+      const response = await api.get(`/outbound/shipments/track/${trackingNumber}`);
+      return response.data;
+    },
+
+    getAnalytics: async (params?: any): Promise<ApiResponse<any>> => {
+      const response = await api.get('/outbound/shipments/analytics', { params });
+      return response.data;
+    }
+  },
+
+  // Enhanced Carton Types
+  cartonTypes: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/carton-types', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/carton-types', data);
+      return response.data;
+    },
+
+    update: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.put(`/outbound/carton-types/${id}`, data);
+      return response.data;
+    },
+
+    getRecommendations: async (data: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.post('/outbound/carton-types/recommend', data);
+      return response.data;
+    },
+
+    updateStock: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/carton-types/${id}/update-stock`, data);
+      return response.data;
+    },
+
+    getAnalytics: async (params?: any): Promise<ApiResponse<any>> => {
+      const response = await api.get('/outbound/carton-types/analytics', { params });
+      return response.data;
+    }
+  },
+
+  // Shipping Rates
+  shippingRates: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/shipping-rates', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/shipping-rates', data);
+      return response.data;
+    },
+
+    update: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.put(`/outbound/shipping-rates/${id}`, data);
+      return response.data;
+    },
+
+    calculate: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/shipping-rates/calculate', data);
+      return response.data;
+    },
+
+    bulkImport: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/shipping-rates/bulk-import', data);
+      return response.data;
+    },
+
+    getAnalytics: async (params?: any): Promise<ApiResponse<any>> => {
+      const response = await api.get('/outbound/shipping-rates/analytics', { params });
+      return response.data;
+    }
+  },
+
+  // Load Plans
+  loadPlans: {
+    getAll: async (params?: any): Promise<ApiResponse<any[]>> => {
+      const response = await api.get('/outbound/load-plans', { params });
+      return response.data;
+    },
+
+    create: async (data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post('/outbound/load-plans', data);
+      return response.data;
+    },
+
+    update: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.put(`/outbound/load-plans/${id}`, data);
+      return response.data;
+    },
+
+    optimize: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/load-plans/${id}/optimize`, data);
+      return response.data;
+    },
+
+    dispatch: async (id: number, data: any): Promise<ApiResponse<any>> => {
+      const response = await api.post(`/outbound/load-plans/${id}/dispatch`, data);
+      return response.data;
+    },
+
+    getAnalytics: async (params?: any): Promise<ApiResponse<any>> => {
+      const response = await api.get('/outbound/load-plans/analytics', { params });
+      return response.data;
+    }
+  }
+};
+
 export default {
   packingService,
   shippingService,
   qualityControlService,
+  enhancedOutboundService,
 };
