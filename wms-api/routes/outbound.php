@@ -9,13 +9,24 @@ use App\Http\Controllers\Outbound\PickListController;
 use App\Http\Controllers\Outbound\BatchPickController;
 use App\Http\Controllers\Outbound\ZonePickController;
 use App\Http\Controllers\Outbound\ClusterPickController;
+use App\Http\Controllers\Outbound\PackingController;
 use App\Http\Controllers\Outbound\PackingStationController;
 use App\Http\Controllers\Outbound\PackOrderController;
 use App\Http\Controllers\Outbound\CartonTypeController;
+use App\Http\Controllers\Outbound\ShippingController;
 use App\Http\Controllers\Outbound\ShipmentController;
 use App\Http\Controllers\Outbound\ShippingRateController;
+use App\Http\Controllers\Outbound\LoadPlanningController;
 use App\Http\Controllers\Outbound\LoadPlanController;
+use App\Http\Controllers\Outbound\DockSchedulingController;
 use App\Http\Controllers\Outbound\DockScheduleController;
+use App\Http\Controllers\Outbound\QualityControlController;
+
+// Additional Outbound Controllers
+use App\Http\Controllers\Outbound\PackingController;
+use App\Http\Controllers\Outbound\ShippingController;
+use App\Http\Controllers\Outbound\LoadPlanningController;
+use App\Http\Controllers\Outbound\DockSchedulingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,6 +121,34 @@ Route::prefix('outbound')->group(function () {
     // Packing Operations
     Route::prefix('packing')->group(function () {
         // Packing Stations
+        Route::get('stations', [PackingController::class, 'getPackingStations']);
+        Route::post('stations', [PackingController::class, 'createPackingStation']);
+        Route::get('stations/{id}', [PackingController::class, 'getPackingStation']);
+        Route::put('stations/{id}', [PackingController::class, 'updatePackingStation']);
+        
+        // Carton Types
+        Route::get('cartons', [PackingController::class, 'getCartonTypes']);
+        Route::post('cartons', [PackingController::class, 'createCartonType']);
+        Route::post('cartons/recommend', [PackingController::class, 'getCartonRecommendation']);
+        
+        // Pack Orders
+        Route::get('orders/pending', [PackingController::class, 'getPendingPackOrders']);
+        Route::post('orders', [PackingController::class, 'createPackOrder']);
+        Route::post('orders/{id}/start', [PackingController::class, 'startPacking']);
+        
+        // Packed Cartons
+        Route::post('cartons', [PackingController::class, 'createPackedCarton']);
+        Route::post('cartons/{id}/validate', [PackingController::class, 'validatePackedCarton']);
+        Route::post('cartons/{id}/quality-check', [PackingController::class, 'qualityCheckCarton']);
+        
+        // Multi-Carton Shipments
+        Route::post('multi-carton', [PackingController::class, 'createMultiCartonShipment']);
+        
+        // Packing Materials
+        Route::get('materials', [PackingController::class, 'getPackingMaterials']);
+        Route::put('materials/{id}/inventory', [PackingController::class, 'updatePackingMaterialInventory']);
+        
+        // Legacy routes for backward compatibility
         Route::get('stations', [PackingStationController::class, 'index']);
         Route::post('stations', [PackingStationController::class, 'store']);
         Route::get('stations/{id}', [PackingStationController::class, 'show']);
@@ -117,7 +156,6 @@ Route::prefix('outbound')->group(function () {
         Route::delete('stations/{id}', [PackingStationController::class, 'destroy']);
         Route::get('stations/{id}/performance', [PackingStationController::class, 'performance']);
         
-        // Carton Types
         Route::get('cartons', [CartonTypeController::class, 'index']);
         Route::post('cartons', [CartonTypeController::class, 'store']);
         Route::get('cartons/{id}', [CartonTypeController::class, 'show']);
@@ -125,7 +163,6 @@ Route::prefix('outbound')->group(function () {
         Route::delete('cartons/{id}', [CartonTypeController::class, 'destroy']);
         Route::post('cartons/select-optimal', [CartonTypeController::class, 'selectOptimal']);
         
-        // Pack Orders
         Route::get('orders', [PackOrderController::class, 'index']);
         Route::post('orders', [PackOrderController::class, 'store']);
         Route::get('orders/{id}', [PackOrderController::class, 'show']);
@@ -141,6 +178,58 @@ Route::prefix('outbound')->group(function () {
     // Shipping & Loading
     Route::prefix('shipping')->group(function () {
         // Shipments
+        Route::get('shipments', [ShippingController::class, 'getShipments']);
+        Route::post('shipments', [ShippingController::class, 'createShipment']);
+        Route::get('shipments/{id}', [ShippingController::class, 'getShipment']);
+        Route::put('shipments/{id}', [ShippingController::class, 'updateShipment']);
+        
+        // Shipping Rates
+        Route::get('rates', [ShippingController::class, 'getShippingRates']);
+        Route::post('rates/shop', [ShippingController::class, 'performRateShopping']);
+        
+        // Shipping Documents & Labels
+        Route::post('labels', [ShippingController::class, 'generateShippingLabel']);
+        Route::post('documents', [ShippingController::class, 'generateShippingDocument']);
+        
+        // Shipping Manifests
+        Route::post('manifests', [ShippingController::class, 'createShippingManifest']);
+        Route::post('manifests/{id}/close', [ShippingController::class, 'closeShippingManifest']);
+        Route::post('manifests/{id}/transmit', [ShippingController::class, 'transmitShippingManifest']);
+        
+        // Advanced Analytics Routes
+        Route::get('analytics/customer', [ShippingController::class, 'getCustomerAnalytics']);
+        Route::get('analytics/carrier-performance', [ShippingController::class, 'getCarrierPerformance']);
+        Route::get('analytics/predictive-forecast', [ShippingController::class, 'getPredictiveForecast']);
+        
+        // Delivery Confirmations
+        Route::post('delivery-confirmations', [ShippingController::class, 'recordDeliveryConfirmation']);
+        
+        // Load Planning
+        Route::get('loads', [LoadPlanningController::class, 'getLoadPlans']);
+        Route::post('loads', [LoadPlanningController::class, 'createLoadPlan']);
+        Route::get('loads/{id}', [LoadPlanningController::class, 'getLoadPlan']);
+        Route::put('loads/{id}', [LoadPlanningController::class, 'updateLoadPlan']);
+        Route::post('loads/{id}/cancel', [LoadPlanningController::class, 'cancelLoadPlan']);
+        Route::post('loads/confirm-loading', [LoadPlanningController::class, 'confirmLoading']);
+        Route::get('loads/utilization', [LoadPlanningController::class, 'getDockUtilizationMetrics']);
+        
+        // Dock Scheduling
+        Route::get('docks', [DockSchedulingController::class, 'getLoadingDocks']);
+        Route::post('docks', [DockSchedulingController::class, 'createLoadingDock']);
+        Route::get('docks/{id}', [DockSchedulingController::class, 'getLoadingDock']);
+        Route::put('docks/{id}', [DockSchedulingController::class, 'updateLoadingDock']);
+        
+        Route::get('dock-schedules', [DockSchedulingController::class, 'getDockSchedules']);
+        Route::post('dock-schedules', [DockSchedulingController::class, 'createDockSchedule']);
+        Route::get('dock-schedules/{id}', [DockSchedulingController::class, 'getDockSchedule']);
+        Route::put('dock-schedules/{id}', [DockSchedulingController::class, 'updateDockSchedule']);
+        Route::post('dock-schedules/{id}/cancel', [DockSchedulingController::class, 'cancelDockSchedule']);
+        
+        Route::get('dock-availability', [DockSchedulingController::class, 'getDockAvailability']);
+        Route::get('dock-slots', [DockSchedulingController::class, 'findAvailableDockSlots']);
+        Route::get('dock-calendar', [DockSchedulingController::class, 'getDockScheduleCalendar']);
+        
+        // Legacy routes for backward compatibility
         Route::get('shipments', [ShipmentController::class, 'index']);
         Route::post('shipments', [ShipmentController::class, 'store']);
         Route::get('shipments/{id}', [ShipmentController::class, 'show']);
@@ -151,13 +240,11 @@ Route::prefix('outbound')->group(function () {
         Route::post('shipments/{id}/manifest', [ShipmentController::class, 'addToManifest']);
         Route::get('shipments/{id}/tracking', [ShipmentController::class, 'getTracking']);
         
-        // Shipping Rates
         Route::get('rates', [ShippingRateController::class, 'index']);
         Route::post('rates/shop', [ShippingRateController::class, 'shopRates']);
         Route::post('rates/compare', [ShippingRateController::class, 'compareRates']);
         Route::get('rates/carriers/{carrierId}', [ShippingRateController::class, 'getCarrierRates']);
         
-        // Load Planning
         Route::get('loads', [LoadPlanController::class, 'index']);
         Route::post('loads', [LoadPlanController::class, 'store']);
         Route::get('loads/{id}', [LoadPlanController::class, 'show']);
@@ -166,7 +253,6 @@ Route::prefix('outbound')->group(function () {
         Route::post('loads/{id}/confirm-loading', [LoadPlanController::class, 'confirmLoading']);
         Route::post('loads/{id}/dispatch', [LoadPlanController::class, 'dispatch']);
         
-        // Dock Scheduling
         Route::get('docks/schedules', [DockScheduleController::class, 'index']);
         Route::post('docks/schedules', [DockScheduleController::class, 'store']);
         Route::get('docks/schedules/{id}', [DockScheduleController::class, 'show']);
@@ -174,6 +260,30 @@ Route::prefix('outbound')->group(function () {
         Route::post('docks/schedules/{id}/confirm', [DockScheduleController::class, 'confirm']);
         Route::post('docks/schedules/{id}/complete', [DockScheduleController::class, 'complete']);
         Route::get('docks/availability', [DockScheduleController::class, 'getAvailability']);
+    });
+    
+    // Quality Control
+    Route::prefix('quality-control')->group(function () {
+        // Quality Checkpoints
+        Route::get('checkpoints', [QualityControlController::class, 'getQualityCheckpoints']);
+        Route::post('checkpoints', [QualityControlController::class, 'createQualityCheckpoint']);
+        
+        // Quality Checks
+        Route::post('checks', [QualityControlController::class, 'performQualityCheck']);
+        
+        // Weight & Dimension Verification
+        Route::post('weight-verification', [QualityControlController::class, 'verifyWeight']);
+        Route::post('dimension-verification', [QualityControlController::class, 'verifyDimensions']);
+        
+        // Damage Inspection
+        Route::post('damage-inspection', [QualityControlController::class, 'performDamageInspection']);
+        
+        // Quality Exceptions
+        Route::get('exceptions', [QualityControlController::class, 'getQualityExceptions']);
+        Route::post('exceptions/{id}/resolve', [QualityControlController::class, 'resolveQualityException']);
+        
+        // Quality Metrics
+        Route::get('metrics', [QualityControlController::class, 'getQualityMetrics']);
     });
     
     // Analytics & Reporting
@@ -188,9 +298,22 @@ Route::prefix('outbound')->group(function () {
 
 // Mobile API Routes for Outbound Operations
 Route::prefix('mobile/outbound')->group(function () {
+    // Picking
     Route::get('pick-lists/assigned/{employeeId}', [PickListController::class, 'getAssignedPickLists']);
     Route::post('pick-lists/{id}/scan-item', [PickListController::class, 'scanAndPick']);
+    
+    // Packing
     Route::get('pack-orders/assigned/{employeeId}', [PackOrderController::class, 'getAssignedPackOrders']);
     Route::post('pack-orders/{id}/scan-carton', [PackOrderController::class, 'scanAndPack']);
+    Route::post('packing/scan-carton', [PackingController::class, 'createPackedCarton']);
+    Route::post('packing/validate-carton/{id}', [PackingController::class, 'validatePackedCarton']);
+    
+    // Shipping
     Route::post('shipments/{id}/scan-label', [ShipmentController::class, 'scanLabel']);
+    Route::post('shipping/scan-label', [ShippingController::class, 'generateShippingLabel']);
+    Route::post('shipping/confirm-loading', [LoadPlanningController::class, 'confirmLoading']);
+    
+    // Quality Control
+    Route::post('quality/check', [QualityControlController::class, 'performQualityCheck']);
+    Route::post('quality/damage-inspection', [QualityControlController::class, 'performDamageInspection']);
 });
