@@ -9,6 +9,7 @@ use App\Repositories\Admin\api\v1\product\ProductRepository;
 use App\Http\Resources\Admin\api\v1\product\ProductCollection;
 use App\Http\Requests\Admin\api\v1\product\StoreProductRequest;
 use App\Http\Requests\Admin\api\v1\product\UpdateProductRequest;
+use App\Services\EventService;
 
 class ProductController extends Controller
 {
@@ -38,6 +39,10 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request): ProductResource
     {
         $product = $this->productRepository->create($request->validated());
+        
+        // Dispatch product created event
+        EventService::productCreated($product);
+        
         return new ProductResource($product);
     }
 
@@ -47,7 +52,7 @@ class ProductController extends Controller
     public function show(Product $product): ProductResource
     {
         $product = $this->productRepository->get($product);
-        return new ProductResource($brand->load('product'));
+        return new ProductResource($product->load(['category', 'subcategory', 'brand']));
     }
 
     /**
@@ -56,6 +61,10 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product): ProductResource
     {
         $product = $this->productRepository->update($product, $request->validated());
+        
+        // Dispatch product updated event
+        EventService::productUpdated($product);
+        
         return new ProductResource($product);
     }
 

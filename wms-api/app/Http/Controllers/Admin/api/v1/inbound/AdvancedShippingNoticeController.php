@@ -9,6 +9,7 @@ use App\Repositories\Admin\api\v1\inbound\AdvancedShippingNoticeRepository;
 use App\Http\Resources\Admin\api\v1\inbound\AdvancedShippingNoticeCollection;
 use App\Http\Requests\Admin\api\v1\inbound\StoreAdvancedShippingNoticeRequest;
 use App\Http\Requests\Admin\api\v1\inbound\UpdateAdvancedShippingNoticeRequest;
+use App\Services\EventService;
 
 class AdvancedShippingNoticeController extends Controller
 {
@@ -34,15 +35,19 @@ class AdvancedShippingNoticeController extends Controller
     public function store(StoreAdvancedShippingNoticeRequest $request): AdvancedShippingNoticeResource
     {
         $asn = $this->advancedShippingNoticeRepository->create($request->validated());
+        
+        // Dispatch ASN received event
+        EventService::asnReceived($asn);
+        
         return new AdvancedShippingNoticeResource($asn);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(AdvancedShippingNotice $asn): AdvancedShippingNoticeResource
+    public function show(AdvancedShippingNotice $advancedShippingNotice): AdvancedShippingNoticeResource
     {
-        $asn = $this->advancedShippingNoticeRepository->get($asn);
+        $asn = $this->advancedShippingNoticeRepository->get($advancedShippingNotice);
         return new AdvancedShippingNoticeResource($asn);
     }
 

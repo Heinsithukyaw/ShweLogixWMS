@@ -48,6 +48,8 @@ use App\Http\Controllers\Admin\api\v1\inbound\ReceivingLaborTrackingController;
 use App\Http\Controllers\Admin\api\v1\inbound\ReceivingDockController;
 use App\Http\Controllers\Admin\api\v1\inbound\StagingLocationController;
 use App\Http\Controllers\Admin\api\v1\inbound\ReceivingEquipmentController;
+use App\Http\Controllers\Api\Admin\EventMonitoringController;
+use App\Http\Controllers\Admin\api\v1\notification\NotificationController;
 
 
 Route::post('register', [AuthController::class, 'register'])->name('auth.register');
@@ -154,5 +156,20 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('staging-locations', StagingLocationController::class);
     Route::apiResource('receiving-equipments', ReceivingEquipmentController::class);
 
+    // Notification Routes
+    Route::get('notifications', [NotificationController::class, 'index']);
+    Route::get('notifications/unread-count', [NotificationController::class, 'getUnreadCount']);
+    Route::post('notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead']);
+    Route::post('notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead']);
+
+    // Event Monitoring Routes
+    Route::prefix('events')->group(function () {
+        Route::get('statistics', [EventMonitoringController::class, 'getStatistics']);
+        Route::get('performance', [EventMonitoringController::class, 'getPerformance']);
+        Route::get('backlog', [EventMonitoringController::class, 'getBacklog']);
+        Route::get('logs', [EventMonitoringController::class, 'getLogs']);
+        Route::get('idempotency-statistics', [EventMonitoringController::class, 'getIdempotencyStatistics']);
+        Route::get('dashboard-summary', [EventMonitoringController::class, 'getDashboardSummary']);
+    });
 
 });

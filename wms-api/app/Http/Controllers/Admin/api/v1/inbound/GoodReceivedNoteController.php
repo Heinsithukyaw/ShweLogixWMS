@@ -9,6 +9,7 @@ use App\Repositories\Admin\api\v1\inbound\GoodReceivedNoteRepository;
 use App\Http\Resources\Admin\api\v1\inbound\GoodReceivedNoteCollection;
 use App\Http\Requests\Admin\api\v1\inbound\StoreGoodReceivedNoteRequest;
 use App\Http\Requests\Admin\api\v1\inbound\UpdateGoodReceivedNoteRequest;
+use App\Services\EventService;
 
 class GoodReceivedNoteController extends Controller
 {
@@ -34,6 +35,10 @@ class GoodReceivedNoteController extends Controller
     public function store(StoreGoodReceivedNoteRequest $request): GoodReceivedNoteResource
     {
         $grn = $this->goodReceivedNoteRepository->create($request->validated());
+        
+        // Dispatch goods received event
+        EventService::goodsReceived($grn);
+        
         return new GoodReceivedNoteResource($grn);
     }
 
@@ -53,6 +58,12 @@ class GoodReceivedNoteController extends Controller
     public function update(UpdateGoodReceivedNoteRequest $request, GoodReceivedNote $goodReceivedNote): GoodReceivedNoteResource
     {
         $grn = $this->goodReceivedNoteRepository->update($goodReceivedNote, $request->validated());
+        
+        // If the GRN status is changed to approved or completed, dispatch goods received event
+        if (isset($request->validated()['status']) && in_array($request->validated()['status'], ['approved', 'completed'])) {
+            EventService::goodsReceived($grn);
+        }
+        
         return new GoodReceivedNoteResource($grn);
     }
 
