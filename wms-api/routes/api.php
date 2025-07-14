@@ -22,6 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 require __DIR__ . '/api-advanced.php';
 require __DIR__ . '/api-olap.php';
 
+// Include Financial and Metrics routes
+require __DIR__ . '/api_financial.php';
+require __DIR__ . '/api_metrics.php';
+
 // Warehouse Optimization Routes
 Route::group(['prefix' => 'warehouse-optimization', 'namespace' => 'App\Http\Controllers\Optimization'], function () {
     // Optimization Metrics
