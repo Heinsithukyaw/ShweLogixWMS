@@ -50,7 +50,75 @@ use App\Http\Controllers\Admin\api\v1\inbound\StagingLocationController;
 use App\Http\Controllers\Admin\api\v1\inbound\ReceivingEquipmentController;
 use App\Http\Controllers\Api\Admin\EventMonitoringController;
 use App\Http\Controllers\Admin\api\v1\notification\NotificationController;
+use App\Http\Controllers\Admin\IntegrationController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
+
+// Health check routes (no auth required)
+Route::get('/health', function () {
+    try {
+        // Check database connection
+        DB::connection()->getPdo();
+        $database_status = 'connected';
+    } catch (Exception $e) {
+        $database_status = 'disconnected';
+    }
+
+    try {
+        // Check Redis connection
+        Redis::ping();
+        $redis_status = 'connected';
+    } catch (Exception $e) {
+        $redis_status = 'disconnected';
+    }
+
+    return response()->json([
+        'status' => 'ok',
+        'timestamp' => now()->toISOString(),
+        'services' => [
+            'database' => $database_status,
+            'redis' => $redis_status,
+        ],
+        'version' => '1.0.0'
+    ]);
+});
+
+Route::get('/integration/status', function () {
+    $integrations = [
+        'sap' => env('SAP_INTEGRATION_ENABLED', false),
+        'oracle' => env('ORACLE_INTEGRATION_ENABLED', false),
+        'dynamics' => env('DYNAMICS_INTEGRATION_ENABLED', false),
+        'shopify' => env('SHOPIFY_INTEGRATION_ENABLED', false),
+        'magento' => env('MAGENTO_INTEGRATION_ENABLED', false),
+        'woocommerce' => env('WOOCOMMERCE_INTEGRATION_ENABLED', false),
+        'amazon' => env('AMAZON_INTEGRATION_ENABLED', false),
+        'ebay' => env('EBAY_INTEGRATION_ENABLED', false),
+        'walmart' => env('WALMART_INTEGRATION_ENABLED', false),
+        'fedex' => env('FEDEX_INTEGRATION_ENABLED', false),
+        'ups' => env('UPS_INTEGRATION_ENABLED', false),
+        'dhl' => env('DHL_INTEGRATION_ENABLED', false),
+        'quickbooks' => env('QUICKBOOKS_INTEGRATION_ENABLED', false),
+        'xero' => env('XERO_INTEGRATION_ENABLED', false),
+        'stripe' => env('STRIPE_INTEGRATION_ENABLED', false),
+        'salesforce' => env('SALESFORCE_INTEGRATION_ENABLED', false),
+        'hubspot' => env('HUBSPOT_INTEGRATION_ENABLED', false),
+    ];
+
+    $enabled_count = count(array_filter($integrations));
+    $total_count = count($integrations);
+
+    return response()->json([
+        'status' => 'ok',
+        'integrations' => $integrations,
+        'summary' => [
+            'enabled' => $enabled_count,
+            'total' => $total_count,
+            'percentage' => $total_count > 0 ? round(($enabled_count / $total_count) * 100, 2) : 0
+        ],
+        'timestamp' => now()->toISOString()
+    ]);
+});
 
 Route::post('register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
@@ -170,6 +238,36 @@ Route::middleware('auth:api')->group(function () {
         Route::get('logs', [EventMonitoringController::class, 'getLogs']);
         Route::get('idempotency-statistics', [EventMonitoringController::class, 'getIdempotencyStatistics']);
         Route::get('dashboard-summary', [EventMonitoringController::class, 'getDashboardSummary']);
+    });
+
+    // Integration Management Routes
+    Route::prefix('integrations')->group(function () {
+        Route::get('/', [IntegrationController::class, 'index']);
+        Route::post('/', [IntegrationController::class, 'store']);
+        Route::get('/{id}', [IntegrationController::class, 'show']);
+        Route::put('/{id}', [IntegrationController::class, 'update']);
+        Route::delete('/{id}', [IntegrationController::class, 'destroy']);
+        
+        // Integration Actions
+        Route::post('/{id}/test', [IntegrationController::class, 'testConnection']);
+        Route::post('/{id}/sync', [IntegrationController::class, 'triggerSync']);
+        Route::post('/{id}/enable', [IntegrationController::class, 'enable']);
+        Route::post('/{id}/disable', [IntegrationController::class, 'disable']);
+        
+        // Integration Logs
+        Route::get('/{id}/logs', [IntegrationController::class, 'getLogs']);
+        Route::get('/{id}/sync-jobs', [IntegrationController::class, 'getSyncJobs']);
+        
+        // Webhook Management
+        Route::get('/{id}/webhooks', [IntegrationController::class, 'getWebhooks']);
+        Route::post('/{id}/webhooks', [IntegrationController::class, 'createWebhook']);
+        Route::delete('/{id}/webhooks/{webhookId}', [IntegrationController::class, 'deleteWebhook']);
+        
+        // Data Mappings
+        Route::get('/{id}/mappings', [IntegrationController::class, 'getMappings']);
+        Route::post('/{id}/mappings', [IntegrationController::class, 'createMapping']);
+        Route::put('/{id}/mappings/{mappingId}', [IntegrationController::class, 'updateMapping']);
+        Route::delete('/{id}/mappings/{mappingId}', [IntegrationController::class, 'deleteMapping']);
     });
 
 });

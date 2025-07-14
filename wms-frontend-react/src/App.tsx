@@ -86,6 +86,7 @@ import ReceivingDock from './pages/Inbound/ReceivingDock/ReceivingDockPage'
 import StagingLocation from './pages/Inbound/StagingLocation/StagingLocationPage'
 import ReceivingEquipment from './pages/Inbound/ReceivingEquipment/ReceivingEquipmentPage'
 import InboundDashboard from './pages/Inbound/Dashboard/DashboardPage'
+import EventMonitoringPage from './pages/EventMonitoring/EventMonitoringPage'
 
 export default function App() {
   return (
@@ -262,6 +263,13 @@ export default function App() {
               path="/inbound-operation/receiving-equipment"
               element={<ReceivingEquipment />}
             />
+            
+            {/* Event Monitoring */}
+            <Route
+              path="/system/event-monitoring"
+              element={<EventMonitoringPage />}
+            />
+            
             {/* Others Page */}
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/calendar" element={<Calendar />} />
