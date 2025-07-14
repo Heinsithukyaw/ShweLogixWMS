@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App\Utlis;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
