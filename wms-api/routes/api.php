@@ -26,6 +26,11 @@ require __DIR__ . '/api-olap.php';
 require __DIR__ . '/api_financial.php';
 require __DIR__ . '/api_metrics.php';
 
+// Include Phase 2, 3, and 4 routes
+require __DIR__ . '/api_phase2.php';
+require __DIR__ . '/api_phase3.php';
+require __DIR__ . '/api_phase4.php';
+
 // Warehouse Optimization Routes
 Route::group(['prefix' => 'warehouse-optimization', 'namespace' => 'App\Http\Controllers\Optimization'], function () {
     // Optimization Metrics
