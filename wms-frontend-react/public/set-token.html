@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Auth Token</title>
+</head>
+<body>
+    <h1>Set Authentication Token</h1>
+    <p>This will set the authentication token for testing the event monitoring dashboard.</p>
+    <button onclick="setToken()">Set Token</button>
+    <p id="status"></p>
+
+    <script>
+        function setToken() {
+            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiYWNmMzk0MjJjZjA4NjViZmFiYjM1MjMyOTc5M2U0NWM4NDVjM2U4NDNkZTZhMzUxODAxMmJjZTA1MTQ4MzM5OGIzNWJhNDRlZTZmNjg1MTUiLCJpYXQiOjE3NTI0Nzg3NzguMzUzNDY4LCJuYmYiOjE3NTI0Nzg3NzguMzUzNDY5LCJleHAiOjE3ODQwMTQ3NzguMzUyMTE3LCJzdWIiOiI0Iiwic2NvcGVzIjpbXX0.s0ThO-JbQjaK6xlK1eef-5r6im6V3o3Di2pyHdfgw3Du6GQhoR7cC0ZTMwETk1nxi6yKard8Y2n5k8GjjwXwUlpEgGwPMkeWgX2qgYRb5Kyz9gDEtFw1EvP72CFuyGNgBIpDUMfV8ui76AEZHfu3cZPni08THZnONp_x3P_l0mbWe1NRj4VRqDEKP2Gx6vIazjYxNjLEmRbv0UWCzSdNBTvcPXqTHZ8TOQRjofVJG6JfxUWswqn_mBsz0kDyUAJWSp4Si-2CRm3v7Td7UqwSnHHIQPj-Rado5bLt4VpWUILkxSwjuvX21dG2rn1ibtFAjUXKHF6uY5w7keKo2dzBieNqCih_SBlBLDsgRNbjyAgB4JnUzkDv8a69QRIaN9LWw8R5o2r2jgCR0agSv0z6K10Vg27fmQlJcbgHNhzNxvMDnVF7H1Ko-sJFZql1FAgt8CWtz618iyurXNXIlQmz1xWua48t2Od1G5zgp6NpJK0w1QEPZpeIFL0ymRuuTjKNR6v37QNAjIfG5aNFRb8NyGRjrLpcPmWj2IPd1l14gNEo2LSuasDJVwXa2Fh5B2egHdLXkW3TeyWj4-VcgKazJJkMiO8W9sDVd-4NauTObKnHkRQFQftzJO7NPygUMFbHWmQOxEWAf9cPGj5uGSpTDo2a38iZ0cj6AU9QGFcV93k';
+            localStorage.setItem('auth_token', token);
+            document.getElementById('status').innerHTML = 'Token set successfully! You can now navigate to <a href="/system/event-monitoring">/system/event-monitoring</a>';
+        }
+    </script>
+</body>
+</html>
