@@ -1,0 +1,255 @@
+/* Workflow Engine Styles */
+
+/* Container */
+.workflow-engine-container {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+/* Metrics Cards */
+.metric-card {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.metric-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* Sidebar */
+.sidebar-card {
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.workflow-nav .nav-link {
+  padding: 0.75rem 1rem;
+  color: #495057;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.workflow-nav .nav-link:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.workflow-nav .nav-link.active {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+  font-weight: 500;
+}
+
+/* Main Content */
+.main-card {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Category Badge */
+.category-badge {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.65rem;
+}
+
+/* Workflow Designer */
+.steps-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.step-card {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #e9ecef;
+}
+
+.step-card:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.step-card.selected {
+  border-color: #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.workflow-visualization {
+  border: 1px solid #e9ecef;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.flow-container {
+  width: 100%;
+  background-color: #f8f9fa;
+}
+
+/* Workflow Details */
+.step-item {
+  display: flex;
+  padding: 0.75rem;
+  border: 1px solid #e9ecef;
+  border-radius: 0.25rem;
+  margin-bottom: 0.75rem;
+  background-color: #fff;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #6c757d;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.step-description {
+  font-size: 0.875rem;
+}
+
+.execution-item {
+  display: flex;
+  padding: 0.75rem;
+  border: 1px solid #e9ecef;
+  border-radius: 0.25rem;
+  margin-bottom: 0.75rem;
+  background-color: #fff;
+}
+
+.execution-status {
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.execution-content {
+  flex: 1;
+}
+
+.execution-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.execution-time {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.execution-details {
+  font-size: 0.875rem;
+}
+
+.status-legend {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.chart-placeholder {
+  min-height: 200px;
+}
+
+/* File Upload */
+.custom-file-upload {
+  margin-bottom: 1rem;
+}
+
+.file-upload-box {
+  border: 2px dashed #ced4da;
+  border-radius: 0.25rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.file-upload-box:hover {
+  border-color: #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.file-upload-box.is-invalid {
+  border-color: #dc3545;
+}
+
+/* JSON Editor */
+.json-editor-container {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+/* Success Icons */
+.success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: rgba(40, 167, 69, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.input-data-preview {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.875rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+  .execution-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .execution-time {
+    margin-top: 0.25rem;
+  }
+}

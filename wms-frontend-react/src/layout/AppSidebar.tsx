@@ -309,12 +309,43 @@ const inboundItems: MasterItem[] = [
   },
 ]
 
+const outboundItems: MasterItem[] = [
+  {
+    icon: <IoDocumentAttachOutline />,
+    name: 'Wave Management',
+    path: '/outbound-operation/wave-management',
+  },
+  {
+    icon: <IoDocumentAttachOutline />,
+    name: 'Picking Interface',
+    path: '/outbound-operation/picking',
+  },
+  {
+    icon: <IoDocumentAttachOutline />,
+    name: 'Load Planning',
+    path: '/outbound-operation/load-planning',
+  },
+]
+
+const documentItems: MasterItem[] = [
+  {
+    icon: <IoDocumentAttachOutline />,
+    name: 'Document Management',
+    path: '/document-management',
+  },
+  {
+    icon: <IoGitNetworkOutline />,
+    name: 'Workflow Engine',
+    path: '/workflow-engine',
+  },
+]
+
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
 
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "main" | "master" | "others";
+    type: "main" | "master" | "others" | "outbound" | "document";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
@@ -330,19 +361,32 @@ const AppSidebar: React.FC = () => {
 
   useEffect(() => {
     let submenuMatched = false;
-    ["main", "master", "others"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : menuType === "master" ? masterItems : inboundItems;
+    ["main", "master", "others", "outbound", "document"].forEach((menuType) => {
+      const items = 
+        menuType === "main" ? navItems : 
+        menuType === "master" ? masterItems : 
+        menuType === "outbound" ? outboundItems : 
+        menuType === "document" ? documentItems :
+        inboundItems;
+      
       items.forEach((nav, index) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
             if (isActive(subItem.path)) {
               setOpenSubmenu({
-                type: menuType as "main" | "master" | "others",
+                type: menuType as "main" | "master" | "others" | "outbound" | "document",
                 index,
               });
               submenuMatched = true;
             }
           });
+        } else if (nav.path && isActive(nav.path)) {
+          // For direct paths without subitems
+          setOpenSubmenu({
+            type: menuType as "main" | "master" | "others" | "outbound" | "document",
+            index,
+          });
+          submenuMatched = true;
         }
       });
     });
@@ -364,7 +408,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "main" | "master" | "others") => {
+  const handleSubmenuToggle = (index: number, menuType: "main" | "master" | "others" | "outbound" | "document") => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -377,7 +421,7 @@ const AppSidebar: React.FC = () => {
     });
   };
 
-  const renderMenuItems = (items: NavItem[], menuType: "main" | "master" | "others") => (
+  const renderMenuItems = (items: NavItem[], menuType: "main" | "master" | "others" | "outbound" | "document") => (
     <ul className="flex flex-col gap-4">
       {items.map((nav, index) => (
         <li key={nav.name}>
@@ -598,6 +642,38 @@ const AppSidebar: React.FC = () => {
                 )}
               </h2>
               {renderMenuItems(inboundItems, 'others')}
+            </div>
+            <div className="">
+              <h2
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? 'lg:justify-center'
+                    : 'justify-start'
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  'Outbound Operation'
+                ) : (
+                  <HorizontaLDots />
+                )}
+              </h2>
+              {renderMenuItems(outboundItems, 'outbound')}
+            </div>
+            <div className="">
+              <h2
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? 'lg:justify-center'
+                    : 'justify-start'
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  'Document Management'
+                ) : (
+                  <HorizontaLDots />
+                )}
+              </h2>
+              {renderMenuItems(documentItems, 'document')}
             </div>
           </div>
         </nav>

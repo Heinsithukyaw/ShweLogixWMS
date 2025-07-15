@@ -23,6 +23,15 @@ import Home from './pages/Dashboard/Home'
 import ProtectedRoute from './components/ProtectedRoute'
 import { Toaster } from 'react-hot-toast'
 
+// New Outbound Components
+import WaveManagement from './pages/Outbound/WaveManagement'
+import PickingInterface from './pages/Outbound/Picking'
+import LoadPlanning from './pages/Outbound/LoadPlanning'
+
+// Document Management and Workflow Components
+import DocumentManagement from './pages/DocumentManagement'
+import WorkflowEngine from './pages/WorkflowEngine'
+
 
 // Master Data Section
 import UnitOfMeasure from './pages/ProductManagement/UnitOfMeasure/List'
@@ -262,6 +271,38 @@ export default function App() {
             <Route
               path="/inbound-operation/receiving-equipment"
               element={<ReceivingEquipment />}
+            />
+            
+            {/* Outbound Operations */}
+            <Route
+              path="/outbound-operation/wave-management"
+              element={<WaveManagement />}
+            />
+            <Route
+              path="/outbound-operation/picking"
+              element={<PickingInterface />}
+            />
+            <Route
+              path="/outbound-operation/load-planning"
+              element={<LoadPlanning />}
+            />
+            
+            {/* Document Management */}
+            <Route
+              path="/document-management"
+              element={<DocumentManagement />}
+            />
+            
+            {/* Workflow Management */}
+            <Route
+              path="/workflow-management"
+              element={<WorkflowManagement />}
+            />
+            
+            {/* Workflow Engine */}
+            <Route
+              path="/workflow-engine"
+              element={<WorkflowEngine />}
             />
             
             {/* Event Monitoring */}
