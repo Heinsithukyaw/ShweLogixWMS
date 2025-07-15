@@ -1,0 +1,50 @@
+
+   INFO  No scheduled commands are ready to run.  
+
+
+  2025-07-14 09:50:32 Running ['artisan' wms:monitor-events --check=backlog] ............................................................ 200ms DONE
+  ⇂ '/usr/bin/php8.2' 'artisan' wms:monitor-events --check=backlog >> 'storage/logs/event-backlog.log' 2>&1  
+
+
+   INFO  No scheduled commands are ready to run.  
+
+
+   INFO  No scheduled commands are ready to run.  
+
+
+   INFO  No scheduled commands are ready to run.  
+
+
+   INFO  No scheduled commands are ready to run.  
+
+
+  2025-07-14 09:55:33 Running ['artisan' wms:monitor-events --check=backlog] ............................................................ 200ms DONE
+  ⇂ '/usr/bin/php8.2' 'artisan' wms:monitor-events --check=backlog >> 'storage/logs/event-backlog.log' 2>&1  
+
+
+   INFO  No scheduled commands are ready to run.  
+
+
+   INFO  No scheduled commands are ready to run.  
+
+
+   INFO  No scheduled commands are ready to run.  
+
+
+   INFO  No scheduled commands are ready to run.  
+
+
+  2025-07-14 10:00:34 Running ['artisan' wms:monitor-thresholds --type=inventory] ....................................................... 200ms DONE
+  ⇂ '/usr/bin/php8.2' 'artisan' wms:monitor-thresholds --type=inventory >> 'storage/logs/inventory-thresholds.log' 2>&1  
+  2025-07-14 10:00:35 Running ['artisan' wms:monitor-thresholds --type=capacity] ........................................................ 224ms DONE
+  ⇂ '/usr/bin/php8.2' 'artisan' wms:monitor-thresholds --type=capacity >> 'storage/logs/capacity-thresholds.log' 2>&1  
+  2025-07-14 10:00:35 Running ['artisan' wms:monitor-events] ............................................................................ 208ms DONE
+  ⇂ '/usr/bin/php8.2' 'artisan' wms:monitor-events >> 'storage/logs/event-monitoring.log' 2>&1  
+  2025-07-14 10:00:35 Running ['artisan' wms:monitor-events --check=backlog] ............................................................ 201ms DONE
+  ⇂ '/usr/bin/php8.2' 'artisan' wms:monitor-events --check=backlog >> 'storage/logs/event-backlog.log' 2>&1  
+  2025-07-14 10:00:35 Running ['artisan' wms:monitor-inventory] ......................................................................... 199ms DONE
+  ⇂ '/usr/bin/php8.2' 'artisan' wms:monitor-inventory >> 'storage/logs/inventory-monitoring.log' 2>&1  
+
+
+   INFO  No scheduled commands are ready to run.  
+
